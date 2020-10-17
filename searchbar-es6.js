@@ -10,9 +10,11 @@ window.addEventListener('load', () => {
     const memberCards = document.querySelectorAll('.searchable-item')
 
     // get all the available categories in the categories array
-    document.querySelectorAll('.title-row').forEach(titleItem => {
+    document.querySelectorAll('.filter-category').forEach(titleItem => {
         categories.push(titleItem.getAttribute('data-category'))
     })
+
+    console.log(categories)
 
     searchInput.addEventListener('input', () => {
         const seachInputValue = searchInput.value.toUpperCase()
@@ -20,15 +22,19 @@ window.addEventListener('load', () => {
             if (item.innerText.toUpperCase().indexOf(seachInputValue) === -1) {
                 item.style.display = 'none'
             } else {
-                item.style.display = 'block'
+                if(typeof item.getAttribute('data-display-default') !== null) {
+                    item.style.display = item.getAttribute('data-display-default')
+                } else {
+                    item.style.display = 'block'
+                }
             }
         })
         if(categories.length > 0) {
             categories.forEach(categoryId => {
             // variable to check if every category has active team memebers with filtering
             let hasVisibleEntries = false
-            document.querySelectorAll(`[data-category-card-id='${categoryId}']`).forEach(userCard => {
-                if (userCard.style.display === 'block') {
+            document.querySelectorAll(`[data-item-category-id='${categoryId}']`).forEach(item => {
+                if (item.style.display === 'block') {
                     hasVisibleEntries = true
                 }
             })
