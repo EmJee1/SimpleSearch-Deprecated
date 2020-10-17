@@ -1,20 +1,13 @@
 window.addEventListener('load', () => {
-    // for cross-broser support (internet explorer and other old browsers doe not fully support regular forEach)
-    if (window.NodeList && !NodeList.prototype.forEach) {
-        NodeList.prototype.forEach = Array.prototype.forEach
-    }
-
     // array to store the categories
     const categories = []
     const searchInput = document.getElementById('search-bar')
     const memberCards = document.querySelectorAll('.searchable-item')
 
     // get all the available categories in the categories array
-    document.querySelectorAll('.filter-category').forEach(titleItem => {
-        categories.push(titleItem.getAttribute('data-category'))
+    document.querySelectorAll('.has-category').forEach(titleItem => {
+        categories.push(titleItem.getAttribute('data-SBcategory'))
     })
-
-    console.log(categories)
 
     searchInput.addEventListener('input', () => {
         const seachInputValue = searchInput.value.toUpperCase()
@@ -22,8 +15,9 @@ window.addEventListener('load', () => {
             if (item.innerText.toUpperCase().indexOf(seachInputValue) === -1) {
                 item.style.display = 'none'
             } else {
-                if(typeof item.getAttribute('data-display-default') !== null) {
-                    item.style.display = item.getAttribute('data-display-default')
+                if(item.getAttribute('data-SBItemDisplay') !== null) {
+                    console.log('Not the default display')
+                    item.style.display = item.getAttribute('data-SBItemDisplay')
                 } else {
                     item.style.display = 'block'
                 }
@@ -33,18 +27,22 @@ window.addEventListener('load', () => {
             categories.forEach(categoryId => {
             // variable to check if every category has active team memebers with filtering
             let hasVisibleEntries = false
-            document.querySelectorAll(`[data-item-category-id='${categoryId}']`).forEach(item => {
-                if (item.style.display === 'block') {
+            document.querySelectorAll(`[data-SBCatId='${categoryId}']`).forEach(row => {
+                if (row.style.display === 'block') {
                     hasVisibleEntries = true
                 }
             })
             if (hasVisibleEntries === false) {
-                document.querySelectorAll(`[data-category='${categoryId}']`).forEach(row => {
+                document.querySelectorAll(`[data-SBcategory='${categoryId}']`).forEach(row => {
                     row.style.display = 'none'
                 })
             } else {
-                document.querySelectorAll(`[data-category='${categoryId}']`).forEach(row => {
-                    row.style.display = 'block'
+                document.querySelectorAll(`[data-SBcategory='${categoryId}']`).forEach(row => {
+                    if(row.getAttribute('data-SBRowDisplay') !== null) {
+                        row.style.display = row.getAttribute('data-SBRowDisplay')
+                    } else {
+                        row.style.display = "block";
+                    }
                 })
             }
         })
