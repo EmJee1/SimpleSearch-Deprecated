@@ -1,12 +1,12 @@
 # What is simple-search?
 
 Simple-search is the easy-to-use JavaScript library for filtering small to medium amounts of data on your website.
-Made in vanilla ES6 JavaScript, it also contains an ES2015 file with the same functionality that has IE support.
+Made in vanilla ES6 JavaScript, it also contains an ES2015 file with the same functionality, which features full IE support.
 
 # How to implement it
-1. Add the file to your project and import it with a script src tag, like so:
+1. Add the file to your project and import it with a script defer src tag, like so:
 ```html
-<script src="./path/to-searchbar.js"></script>
+<script defer src="./path/to-searchbar.js"></script>
 ```
 
 2. Create your searchbar, it needs an id of search-bar
@@ -52,6 +52,13 @@ To change this, add the data-SBItemDisplay="" attribute.
 Table example:
 ```html
 <tr class="searchable-item" data-SBItemDisplay="table-row"></tr>
+```
+
+## Capital strict
+To make the searchbar search for matches with the same capitalization, add the data-SBCapitalStrict attribute to the search-bar
+You can add it like this, when the data equals true, it will be capital strict, the default is false.
+```html
+<input type="text" data-SBCapitalStrict="true" id="search-bar">
 ```
 
 # Examples

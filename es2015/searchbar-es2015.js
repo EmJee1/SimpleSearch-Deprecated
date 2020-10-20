@@ -1,4 +1,4 @@
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     // for cross-broser support (internet explorer and other old browsers doe not fully support regular forEach)
     if (window.NodeList && !NodeList.prototype.forEach) {
         NodeList.prototype.forEach = Array.prototype.forEach;
@@ -7,20 +7,39 @@ window.addEventListener('load', function() {
     var categories = [];
     var searchInput = document.getElementById('search-bar');
     var memberCards = document.querySelectorAll('.searchable-item');
+    var capitalStrict = false;
 
     // get all the available categories in the categories array
     document.querySelectorAll('.has-category').forEach(function (titleItem) {
         categories.push(titleItem.getAttribute('data-SBcategory'));
     });
 
+    // check if the capital-strict data attribute has been set to true
+    if (searchInput.getAttribute('data-SBCapitalStrict') === "true") {
+        capitalStrict = true;
+    }
+
+    // on searchbar input change
     searchInput.addEventListener('input', function () {
-        var seachInputValue = searchInput.value.toUpperCase();
+        var seachInputValue = void 0;
+        // capitalize the input if capital strict is disabled, else use the raw input
+        if (capitalStrict === false) {
+            seachInputValue = searchInput.value.toUpperCase();
+        } else {
+            seachInputValue = searchInput.value;
+        }
         memberCards.forEach(function (item) {
-            if (item.innerText.toUpperCase().indexOf(seachInputValue) === -1) {
+            var itemInnerText = void 0;
+            // capitalize the innertext if capital strict is disabled, else use the raw text
+            if (capitalStrict === false) {
+                itemInnerText = item.innerText.toUpperCase();
+            } else {
+                itemInnerText = item.innerText;
+            }
+            if (itemInnerText.indexOf(seachInputValue) === -1) {
                 item.style.display = 'none';
             } else {
                 if (item.getAttribute('data-SBItemDisplay') !== null) {
-                    console.log('Not the default display');
                     item.style.display = item.getAttribute('data-SBItemDisplay');
                 } else {
                     item.style.display = 'block';
@@ -52,4 +71,4 @@ window.addEventListener('load', function() {
             });
         }
     });
-})
+});
